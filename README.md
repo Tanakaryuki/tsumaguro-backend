@@ -117,8 +117,10 @@ sequenceDiagram
         Note over user1,front: 答え合わせ
         user->>front: 答えを選択
         front->>api: 選択を送信
-        api->>db: ルーム情報を確認
+        api->>db: お題を確認&ルーム情報を更新
         db->>api: 返却
+        api->>ai: お題と答えの確認
+        ai->>api: 返却
         api->>front: 返却
         front->>user: 結果を表示
         opt 答え==お題の時
@@ -145,14 +147,31 @@ sequenceDiagram
 ```
 
 # 画面遷移  
-* home(/)
-* ルーム作成(/setting)
-* ルーム入室(/{room_id})
-* 参加者待機(/waiting/{room_id}?id={user_id})
-* ゲームプレイ(/playing/{room_id}?id={user_id})
-* 答え合わせ(/answering/{room_id}?id={user_id})
-* インサイダー投票(/voting/{room_id}?id={user_id})
-* ラウンド結果(/round_result/{room_id})
-* 最終結果(/final_result/{room_id})  
+* home(/)  
+ルール説明とルーム作成  
+
+* ルーム作成(/setting)  
+ユーザ名，部屋名，プレイヤー人数，インサイダーの数，質問回数，ラウンド数を設定
+
+* ルーム入室(/{room_id})  
+ユーザ名を登録  
+
+* 参加者待機(/waiting/{room_id}?id={user_id})  
+現在の参加者を表示  
+
+* ゲームプレイ(/playing/{room_id}?id={user_id})  
+テキストボックスに質問を入力(みんなの質問が揃うまで進行無し)  
+
+* 答え合わせ(/answering/{room_id}?id={user_id})  
+お題と答えが一致するか表示  
+
+* インサイダー投票(/voting/{room_id}?id={user_id})  
+誰がインサイダーか投票  
+
+* ラウンド結果(/round_result/{room_id})  
+ラウンドの結果を表示  
+
+* 最終結果(/final_result/{room_id})   
+全ての得点を表示
 
 ゲームプレイからラウンド結果までは一つにまとめても良い
