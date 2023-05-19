@@ -8,10 +8,10 @@ vscodeに以下の拡張機能をインストールする
 左下の<font color="Blue">><</font>からwslに接続を行う  
 Ctrl + @ でターミナルを起動  
 適当なフォルダを作成し，リポジトリをクローンする  
-`git clone https://github.com/Tanakaryuki/FastAPI_APP.git`  
+`git clone https://github.com/Tanakaryuki/tsumaguro-backend.git`  
 
 フォルダに移動する  
-`cd FastAPI_APP`  
+`cd tsumaguro-backend`  
 
 仮想環境の作成  
 `python3 -m venv env`  
@@ -44,10 +44,10 @@ vscode上で
 `Ctrl + Shift + p`  
 `SQLite: Open Database`  
 
-APIのテスト  
+APIのテスト(バックエンド向け)  
 [http://localhost:8000/docs](http://localhost:8000/docs)から行う  
 
-APIドキュメントの確認  
+APIドキュメントの確認(フロントエンド向け)  
 [http://localhost:8000/redoc](http://localhost:8000/redoc)から行う  
 
 <br>
