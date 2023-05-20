@@ -200,28 +200,28 @@ sequenceDiagram
 * ルーム入室(/{room_id})  
 ユーザ名を登録  
 
-* 参加者待機(/waiting/{room_id}?id={user_id})  
+* 参加者待機(/waiting/{room_id})  
 現在の参加者を表示  
 
-* 役職配布(/position/{room_id}?id={user_id})  
+* 役職配布(/position/{room_id})  
 インサイダーにお題を公開  
 
-* 質問(/questioning/{room_id}?id={user_id})  
+* 質問(/questioning/{room_id})  
 テキストボックスに質問を入力(みんなの質問が揃うまで進行無し)  
 
-* 答え合わせ(/answering/{room_id}?id={user_id})  
+* 答え合わせ(/answering/{room_id})  
 お題と答えが一致するか表示  
 
-* インサイダー投票(/voting/{room_id}?id={user_id})  
+* インサイダー投票(/voting/{room_id})  
 誰がインサイダーか投票(お題を間違えた場合表示されない)  
 
-* インサイダー投票結果(/voting_result/{room_id}?id={user_id})  
+* インサイダー投票結果(/voting_result/{room_id})  
 誰がインサイダーか表示(お題を間違えた場合表示されない)  
 
-* ラウンド結果(/round_result/{room_id}?id={user_id})  
+* ラウンド結果(/round_result/{room_id})  
 ラウンドの結果を表示  
 
-* 最終結果(/final_result/{room_id}?id={user_id})   
+* 最終結果(/final_result/{room_id})   
 全ての得点を表示
 
 役職配布からラウンド結果までは一つにまとめても良い  
