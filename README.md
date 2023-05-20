@@ -81,13 +81,19 @@ sequenceDiagram
     participant ai as Chat GPT
     user->>front: Topページアクセス
     front->>user: home画面を表示
-    user->>front: settingページにRequest
+    user->>front: ルーム作成1ページにRequest
     Note over user1,front: ルーム作成
-    front->>user: 詳細設定を表示
-    user->>front: 詳細設定を選択
+    front->>user: ルーム作成1を表示
+    user->>front: ユーザ名を選択
     front->>api: 選択を送信
-    api->>db: ユーザ登録
+    api->>db: ユーザ情報を確認
     db->>api: 返却
+    api->>db: ユーザ情報を登録
+    db->>api: 返却
+    api->>front: 返却
+    front->>user: ルーム作成2を表示
+    user->>front: ルーム設定を選択
+    front->>api: 選択を送信
     api->>db: ルーム情報を登録
     db->>api: 返却
     api->>front: 返却
@@ -97,6 +103,8 @@ sequenceDiagram
     user1->>front: ユーザ登録
     front->>api: 選択を送信
     api->>db: ルーム情報を確認
+    db->>api: 返却
+    api->>db: ユーザ情報を登録
     db->>api: 返却
     api->>db: ユーザ情報を登録
     db->>api: 返却
@@ -183,8 +191,11 @@ sequenceDiagram
 * home(/)  
 ルール説明とルーム作成  
 
-* ルーム作成(/setting)  
-ユーザ名，部屋名，プレイヤー人数，質問回数，ラウンド数を設定
+* ルーム作成1(/create_user)  
+ユーザ名を設定
+
+* ルーム作成2(/create_room)  
+プレイヤー人数，質問回数，ラウンド数を設定
 
 * ルーム入室(/{room_id})  
 ユーザ名を登録  
