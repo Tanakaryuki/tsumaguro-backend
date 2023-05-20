@@ -40,7 +40,10 @@ def get_theme(db: Session, num: int):
     return db.query(models.Theme).filter(models.Theme.id == num).first()
 
 def get_user_by_session(db: Session, session_id: str):
-    return db.query(models.Theme).filter(models.User.session_id == session_id).first()
+    return db.query(models.User).filter(models.User.session_id == session_id).first()
+
+def get_user_by_id(db: Session, room_id: int):
+    return db.query(models.User).filter(models.User.room_id == room_id).all()
 
 def update_room_questions_num(db: Session,room_id: str, room: schemas.RoomUpdateQuestionNum):
     db_room = db.query(models.Room).filter(models.Room.id == room_id).first()
