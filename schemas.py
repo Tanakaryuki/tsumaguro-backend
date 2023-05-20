@@ -38,7 +38,7 @@ class UserBase(BaseModel):
     user_name : str
     
 class UserCreate(UserBase):
-    session_id : int
+    session_id : str
 
 class UserUpdatePoints(UserBase):
     points : int

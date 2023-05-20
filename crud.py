@@ -10,7 +10,7 @@ def create_room(db: Session, room: schemas.RoomCreate):
     return db_room
 
 def create_user(db: Session, user: schemas.UserCreate):
-    db_user = models.User(session_id = user.session_id,user_name = user.user_name,room_id = user.room_id)
+    db_user = models.User(session_id = user.session_id,user_name = user.user_name)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
