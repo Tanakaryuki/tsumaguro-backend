@@ -99,13 +99,13 @@ sequenceDiagram
     api->>front: 返却
     front->>user: 待機画面を表示
     user1->>front: 待機画面にRequest
-    front->>user1: ユーザ登録を表示
-    user1->>front: ユーザ登録
     front->>api: 選択を送信
     api->>db: ルーム情報を確認
     db->>api: 返却
-    api->>db: ユーザ情報を登録
-    db->>api: 返却
+    api->>front: 返却
+    front->>user1: ユーザ登録を表示
+    user1->>front: ユーザ登録
+    front->>api: 選択を送信
     api->>db: ユーザ情報を登録
     db->>api: 返却
     api->>front:　返却
