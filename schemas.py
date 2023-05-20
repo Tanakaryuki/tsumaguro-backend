@@ -8,7 +8,7 @@ class RoomCreate(RoomBase):
     owner_id : int
     participants_num : int
     round_num : int
-    questions_num : int
+    remaining_questions_num : int
 
 class RoomUpdateQuestionNum(RoomBase):
     questions_num : int
@@ -64,5 +64,21 @@ class ThemeCreate(ThemeBase):
 class Theme(ThemeBase):
     id : int
     
+    class Config:
+        orm_mode = True
+
+class QuestionBase(BaseModel):
+    question : str
+    room_id : int
+    user_id : int
+    question_round : int
+    question_num : int
+
+class QuestionCreate(QuestionBase):
+    pass
+
+class Question(QuestionBase):
+    id : int
+
     class Config:
         orm_mode = True
