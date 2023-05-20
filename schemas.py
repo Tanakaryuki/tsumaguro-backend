@@ -38,13 +38,13 @@ class UserBase(BaseModel):
     user_name : str
     
 class UserCreate(UserBase):
-    room_id : int
     session_id : int
 
 class UserUpdatePoints(UserBase):
     points : int
 
 class User(UserBase):
+    room_id : int
     id : str
     points : int
     
