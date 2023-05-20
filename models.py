@@ -10,6 +10,7 @@ class Room(Base):
     participants_num = Column(Integer,nullable = False)
     round_num = Column(Integer,nullable = False)
     questions_num = Column(Integer,nullable = False)
+    remaining_questions_num = Column(Integer,nullable = False, default = 0)
     answer = Column(String,default = "リンゴ")
     insider_id = Column(Integer,nullable = False,default = "example")
     game_status = Column(Integer,default = 0)

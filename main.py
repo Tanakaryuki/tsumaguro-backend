@@ -8,6 +8,7 @@ import models
 import schemas
 from database import SessionLocal, engine
 import random
+from models import User
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -73,6 +74,19 @@ def read_participants(room_id: int, db: Session = Depends(get_db)):
     if not db_room:
         raise HTTPException(status_code=404, detail="This room is not exist")
     return crud.get_user_by_room_id(db, room_id = room_id)
+
+@app.post("/waiting/{room_id}")
+def casting(room_id: int, db: Session = Depends(get_db)):
+    theme = crud.get_theme(db, random.randint(1, 10))
+    users = crud.get_user_by_room_id(db, room_id)
+    users = users[random.randint(0, len(users) - 1)]
+    insider = users.id
+    theme = theme.name
+    room = crud.get_room_by_room_id(db, room_id)
+    db_room = crud.update_room_answer(db, room_id, theme)
+    db_room = crud.update_room_insider_id(db, room_id, insider)
+    
+    return  crud.update_room_game_status(db, room_id, 1)
 
 @app.post("/register_theme")
 def register_theme(theme: schemas.ThemeCreate, db: Session = Depends(get_db)):

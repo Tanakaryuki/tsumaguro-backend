@@ -45,7 +45,7 @@ def get_user_by_session(db: Session, session_id: str):
 def get_user_by_room_id(db: Session, room_id: int):
     return db.query(models.User).filter(models.User.room_id == room_id).all()
 
-def update_room_questions_num(db: Session,room_id: str, room: schemas.RoomUpdateQuestionNum):
+def update_room_questions_num(db: Session,room_id: int, room: schemas.RoomUpdateQuestionNum):
     db_room = db.query(models.Room).filter(models.Room.id == room_id).first()
     if not db_room:
         return None
@@ -57,7 +57,20 @@ def update_room_questions_num(db: Session,room_id: str, room: schemas.RoomUpdate
     db.refresh(db_room)
     return db_room
 
-def update_room_round_num(db: Session,room_id: str, room: schemas.RoomUpdateRoundNum):
+def update_room_remaining_questions_num(db: Session,room_id: int, remaining_questions_num: int):
+    db_room = db.query(models.Room).filter(models.Room.id == room_id).first()
+    if not db_room:
+        return None
+    
+    key = "remaining_questions_num"
+    value = remaining_questions_num
+    setattr(db_room,key,value)
+        
+    db.commit()
+    db.refresh(db_room)
+    return db_room
+
+def update_room_round_num(db: Session,room_id: int, room: schemas.RoomUpdateRoundNum):
     db_room = db.query(models.Room).filter(models.Room.id == room_id).first()
     if not db_room:
         return None
@@ -69,37 +82,40 @@ def update_room_round_num(db: Session,room_id: str, room: schemas.RoomUpdateRoun
     db.refresh(db_room)
     return db_room
 
-def update_room_answer(db: Session,room_id: str, room: schemas.RoomUpdateAnswer):
+def update_room_answer(db: Session, room_id: int, answer: str):
     db_room = db.query(models.Room).filter(models.Room.id == room_id).first()
     if not db_room:
         return None
     
-    for key,value in room.dict().items():
-        setattr(db_room,key,value)
+    key = "answer"
+    value = answer
+    setattr(db_room,key,value)
         
     db.commit()
     db.refresh(db_room)
     return db_room
 
-def update_room_insider_id(db: Session,room_id: str, room: schemas.RoomUpdateInsider):
+def update_room_insider_id(db: Session, room_id: int, insider_id: int):
     db_room = db.query(models.Room).filter(models.Room.id == room_id).first()
     if not db_room:
         return None
     
-    for key,value in room.dict().items():
-        setattr(db_room,key,value)
+    key = "insider_id"
+    value = insider_id
+    setattr(db_room,key,value)
         
     db.commit()
     db.refresh(db_room)
     return db_room
 
-def update_room_game_status(db: Session,room_id: int, room: schemas.RoomUpdateGameStatus):
+def update_room_game_status(db: Session,room_id: int, game_status: int):
     db_room = db.query(models.Room).filter(models.Room.id == room_id).first()
     if not db_room:
         return None
     
-    for key,value in room.dict().items():
-        setattr(db_room,key,value)
+    key = "game_status"
+    value = game_status
+    setattr(db_room,key,value)
         
     db.commit()
     db.refresh(db_room)
@@ -118,7 +134,7 @@ def update_user_room_id(db: Session,user_id: int, room_id: int):
     db.refresh(db_user)
     return db_user   
 
-def update_user_points(db: Session,user_id: str, room: schemas.UserUpdatePoints):
+def update_user_points(db: Session,user_id: int, room: schemas.UserUpdatePoints):
     db_user = db.query(models.User).filter(models.User.id == user_id).first()
     if not db_user:
         return None
@@ -130,7 +146,7 @@ def update_user_points(db: Session,user_id: str, room: schemas.UserUpdatePoints)
     db.refresh(db_user)
     return db_user
 
-def delete_room(db: Session, room_id: str):
+def delete_room(db: Session, room_id: int):
     db_room = db.query(models.Room).filter(models.Room.id == room_id).first()
     if not db_room:
         db.delete(db_room)
@@ -140,7 +156,7 @@ def delete_room(db: Session, room_id: str):
     db.commit()
     return True
 
-def delete_user(db: Session, user_id: str):
+def delete_user(db: Session, user_id: int):
     db_user = db.query(models.User).filter(models.User.id == user_id).first()
     if not db_user:
         db.delete(db_user)
@@ -150,7 +166,7 @@ def delete_user(db: Session, user_id: str):
     db.commit()
     return True
 
-def delete_theme(db: Session, theme_id: str):
+def delete_theme(db: Session, theme_id: int):
     db_theme = db.query(models.Theme).filter(models.Theme.id == theme_id).first()
     if not db_theme:
         db.delete(db_theme)
