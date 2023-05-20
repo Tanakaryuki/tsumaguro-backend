@@ -2,15 +2,15 @@ from sqlalchemy.orm import Session
 import models
 import schemas
 
-def create_room(db: Session, room: schemas.RoomCreate,user_id: str):
-    db_room = models.Room(participants_num = room.participants_num ,round_num = room.round_num,questions_num = room.questions_num,owner_id = user_id)
+def create_room(db: Session, room: schemas.RoomCreate):
+    db_room = models.Room(participants_num = room.participants_num ,round_num = room.round_num,questions_num = room.questions_num,owner_id = room.owner_id)
     db.add(db_room)
     db.commit()
     db.refresh(db_room)
     return db_room
 
-def create_user(db: Session, user: schemas.UserCreate, user_id: str):
-    db_user = models.User(session_id = user_id,user_name = user.user_name)
+def create_user(db: Session, user: schemas.UserCreate):
+    db_user = models.User(session_id = user.session_id,user_name = user.user_name,room_id = user.room_id)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -23,11 +23,14 @@ def create_theme(db: Session, theme: schemas.ThemeCreate):
     db.refresh(db_theme)
     return db_theme
 
-def get_room(db: Session, room_id: str):
-    return db.query(models.Room).filter(models.Room.id == room_id).first()
+def get_room(db: Session, user_id: str):
+    return db.query(models.Room).filter(models.Room.owner_id == user_id).first()
 
 def get_theme(db: Session, num: int):
     return db.query(models.Theme).filter(models.Theme.id == num).first()
+
+def get_user_by_session(db: Session, session_id: str):
+    return db.query(models.Theme).filter(models.User.session_id == session_id).first()
 
 def update_room_questions_num(db: Session,room_id: str, room: schemas.RoomUpdateQuestionNum):
     db_room = db.query(models.Room).filter(models.Room.id == room_id).first()

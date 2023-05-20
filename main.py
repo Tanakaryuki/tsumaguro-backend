@@ -37,3 +37,17 @@ def get_db():
 @app.get("/")
 def read_root():
     return {"Hello": random.random()}
+
+@app.post("/create_user")
+def create_user(user: schemas.UserCreate,db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_session(db,session_id=user.session_id,)
+    if db_user:
+        raise HTTPException(status_code=404, detail="User alreadty registered")
+    return crud.create_user(db=db,user=user)
+
+@app.post("/create_room")
+def create_room(room: schemas.RoomCreate,db: Session = Depends(get_db)):
+    db_room = crud.get_room(db,user_id=room.owner_id)
+    if db_room:
+        raise HTTPException(status_code=404, detail="Room alreadty registered")
+    return crud.create_room(db=db,room=room)

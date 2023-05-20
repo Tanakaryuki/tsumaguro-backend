@@ -5,6 +5,7 @@ class RoomBase(BaseModel):
     pass
     
 class RoomCreate(RoomBase):
+    owner_id : int
     participants_num : int
     round_num : int
     questions_num : int
@@ -25,10 +26,9 @@ class RoomUpdateGameStatus(RoomBase):
     game_status : int
 
 class Room(RoomBase):
-    id : str
-    owner_id : str
+    id : int
     answer : str
-    insider_id : str
+    insider_id : int
     game_status : int
     
     class Config:
@@ -38,15 +38,14 @@ class UserBase(BaseModel):
     user_name : str
     
 class UserCreate(UserBase):
-    pass
+    room_id : int
+    session_id : int
 
 class UserUpdatePoints(UserBase):
     points : int
 
 class User(UserBase):
     id : str
-    session_id : str
-    room_id : str
     points : int
     
     class Config:
@@ -60,7 +59,7 @@ class ThemeCreate(ThemeBase):
     pass
 
 class Theme(ThemeBase):
-    id : str
+    id : int
     
     class Config:
         orm_mode = True
