@@ -26,7 +26,7 @@ class User(Base):
     id = Column(Integer,primary_key = True,index = True)
     session_id = Column(String)
     user_name = Column(Integer,default = "ユーザ名")
-    room_id = Column(Integer,default = "hogehoge")
+    room_id = Column(Integer,default = 0)
     points = Column(Integer,default = 0)
     
 class Theme(Base):

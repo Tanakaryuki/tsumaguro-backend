@@ -39,15 +39,29 @@ def read_root():
     return {"Hello": random.random()}
 
 @app.post("/create_user")
-def create_user(user: schemas.UserCreate,db: Session = Depends(get_db)):
+def create_parent_user(user: schemas.UserCreate,db: Session = Depends(get_db)):
     db_user = crud.get_user_by_session(db,session_id=user.session_id,)
     if db_user:
         raise HTTPException(status_code=404, detail="User alreadty registered")
-    return crud.create_user(db=db,user=user)
+    return crud.create_parent_user(db=db,user=user)
 
 @app.post("/create_room")
 def create_room(room: schemas.RoomCreate,db: Session = Depends(get_db)):
-    db_room = crud.get_room(db,user_id=room.owner_id)
+    db_room = crud.get_room_by_owner_id(db,user_id=room.owner_id)
     if db_room:
         raise HTTPException(status_code=404, detail="Room alreadty registered")
     return crud.create_room(db=db,room=room)
+
+@app.get("/room/{room_id}")
+def join_room_1(room_id: int, db: Session = Depends(get_db)):
+    db_room = crud.get_room_by_id(db, room_id=room_id)
+    if not db_room:
+        raise HTTPException(status_code=404, detail="This room is not exist")
+    return db_room
+
+@app.post("/room/{room_id}")
+def create_child_user(room_id: int, user: schemas.UserCreate,db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_session(db, session_id=user.session_id,)
+    if db_user:
+        raise HTTPException(status_code=404, detail="User alreadty registered")
+    return crud.create_child_user(db=db,user=user, room_id = room_id)

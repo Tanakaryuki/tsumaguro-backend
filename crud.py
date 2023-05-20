@@ -9,8 +9,15 @@ def create_room(db: Session, room: schemas.RoomCreate):
     db.refresh(db_room)
     return db_room
 
-def create_user(db: Session, user: schemas.UserCreate):
+def create_parent_user(db: Session, user: schemas.UserCreate):
     db_user = models.User(session_id = user.session_id,user_name = user.user_name)
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+def create_child_user(db: Session, user: schemas.UserCreate, room_id: int):
+    db_user = models.User(session_id = user.session_id,user_name = user.user_name,room_id = room_id)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -23,8 +30,11 @@ def create_theme(db: Session, theme: schemas.ThemeCreate):
     db.refresh(db_theme)
     return db_theme
 
-def get_room(db: Session, user_id: str):
+def get_room_by_owner_id(db: Session, user_id: str):
     return db.query(models.Room).filter(models.Room.owner_id == user_id).first()
+
+def get_room_by_id(db: Session, room_id: int):
+    return db.query(models.Room).filter(models.Room.id == room_id).first()
 
 def get_theme(db: Session, num: int):
     return db.query(models.Theme).filter(models.Theme.id == num).first()
