@@ -40,6 +40,9 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     session_id : str
 
+class UserUpdateRoomId(UserBase):
+    room_id : int
+
 class UserUpdatePoints(UserBase):
     points : int
 

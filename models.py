@@ -11,7 +11,7 @@ class Room(Base):
     round_num = Column(Integer,nullable = False)
     questions_num = Column(Integer,nullable = False)
     answer = Column(String,default = "リンゴ")
-    insider_id = Column(String,nullable = False,default = "example")
+    insider_id = Column(Integer,nullable = False,default = "example")
     game_status = Column(Integer,default = 0)
     
     __table_args__ = (

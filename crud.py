@@ -33,7 +33,7 @@ def create_theme(db: Session, theme: schemas.ThemeCreate):
 def get_room_by_owner_id(db: Session, user_id: str):
     return db.query(models.Room).filter(models.Room.owner_id == user_id).first()
 
-def get_room_by_id(db: Session, room_id: int):
+def get_room_by_room_id(db: Session, room_id: int):
     return db.query(models.Room).filter(models.Room.id == room_id).first()
 
 def get_theme(db: Session, num: int):
@@ -42,7 +42,7 @@ def get_theme(db: Session, num: int):
 def get_user_by_session(db: Session, session_id: str):
     return db.query(models.User).filter(models.User.session_id == session_id).first()
 
-def get_user_by_id(db: Session, room_id: int):
+def get_user_by_room_id(db: Session, room_id: int):
     return db.query(models.User).filter(models.User.room_id == room_id).all()
 
 def update_room_questions_num(db: Session,room_id: str, room: schemas.RoomUpdateQuestionNum):
@@ -93,7 +93,7 @@ def update_room_insider_id(db: Session,room_id: str, room: schemas.RoomUpdateIns
     db.refresh(db_room)
     return db_room
 
-def update_room_game_status(db: Session,room_id: str, room: schemas.RoomUpdateGameStatus):
+def update_room_game_status(db: Session,room_id: int, room: schemas.RoomUpdateGameStatus):
     db_room = db.query(models.Room).filter(models.Room.id == room_id).first()
     if not db_room:
         return None
@@ -104,6 +104,19 @@ def update_room_game_status(db: Session,room_id: str, room: schemas.RoomUpdateGa
     db.commit()
     db.refresh(db_room)
     return db_room
+
+def update_user_room_id(db: Session,user_id: int, room_id: int):
+    db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not db_user:
+        return None
+    
+    key = "room_id"
+    value = room_id
+    setattr(db_user,key,value)
+        
+    db.commit()
+    db.refresh(db_user)
+    return db_user   
 
 def update_user_points(db: Session,user_id: str, room: schemas.UserUpdatePoints):
     db_user = db.query(models.User).filter(models.User.id == user_id).first()

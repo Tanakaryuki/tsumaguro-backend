@@ -50,11 +50,12 @@ def create_room(room: schemas.RoomCreate,db: Session = Depends(get_db)):
     db_room = crud.get_room_by_owner_id(db,user_id=room.owner_id)
     if db_room:
         raise HTTPException(status_code=404, detail="Room alreadty registered")
-    return crud.create_room(db=db,room=room)
+    db_room = crud.create_room(db=db,room=room)
+    return crud.update_user_room_id(db, user_id = room.owner_id, room_id = db_room.id)
 
 @app.get("/room/{room_id}")
 def join_room_1(room_id: int, db: Session = Depends(get_db)):
-    db_room = crud.get_room_by_id(db, room_id=room_id)
+    db_room = crud.get_room_by_room_id(db, room_id=room_id)
     if not db_room:
         raise HTTPException(status_code=404, detail="This room is not exist")
     return db_room
@@ -68,7 +69,11 @@ def create_child_user(room_id: int, user: schemas.UserCreate,db: Session = Depen
 
 @app.get("/waiting/{room_id}")
 def read_participants(room_id: int, db: Session = Depends(get_db)):
-    db_room = crud.get_room_by_id(db, room_id=room_id)
+    db_room = crud.get_room_by_room_id(db, room_id=room_id)
     if not db_room:
         raise HTTPException(status_code=404, detail="This room is not exist")
     return crud.get_user_by_id(db, room_id = room_id)
+
+@app.post("/register_theme")
+def register_theme(theme: schemas.ThemeCreate, db: Session = Depends(get_db)):
+    return crud.create_theme(db, theme = theme)
