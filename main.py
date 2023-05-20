@@ -40,9 +40,9 @@ def read_root():
 
 @app.post("/create_user")
 def create_parent_user(user: schemas.UserCreate,db: Session = Depends(get_db)):
-    db_user = crud.get_user_by_session(db,session_id=user.session_id,)
-    if db_user:
-        raise HTTPException(status_code=404, detail="User alreadty registered")
+    # db_user = crud.get_user_by_session(db,session_id=user.session_id,)
+    # if db_user:
+    #     raise HTTPException(status_code=404, detail="User alreadty registered")
     return crud.create_parent_user(db=db,user=user)
 
 @app.post("/create_room")
@@ -72,7 +72,7 @@ def read_participants(room_id: int, db: Session = Depends(get_db)):
     db_room = crud.get_room_by_room_id(db, room_id=room_id)
     if not db_room:
         raise HTTPException(status_code=404, detail="This room is not exist")
-    return crud.get_user_by_id(db, room_id = room_id)
+    return crud.get_user_by_room_id(db, room_id = room_id)
 
 @app.post("/register_theme")
 def register_theme(theme: schemas.ThemeCreate, db: Session = Depends(get_db)):
