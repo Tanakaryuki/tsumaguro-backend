@@ -20,7 +20,7 @@ class RoomUpdateAnswer(RoomBase):
     answer : str
     
 class RoomUpdateInsider(RoomBase):
-    insider : str
+    insider : int
     
 class RoomUpdateGameStatus(RoomBase):
     game_status : int

@@ -31,8 +31,8 @@ def create_theme(db: Session, theme: schemas.ThemeCreate):
     db.refresh(db_theme)
     return db_theme
 
-def create_question(db: Session, question: schemas.QuestionCreate, room_id: int):
-    db_question = models.Question(question = question.question, room_id = room_id, user_id = question.user_id, question_round = question.question_round, question_num = question.question_num)
+def create_question(db: Session, question: schemas.QuestionCreate, room_id: int, number: int):
+    db_question = models.Question(number = number, question = question.question, room_id = room_id, user_id = question.user_id, question_round = question.question_round, question_num = question.question_num)
     db.add(db_question)
     db.commit()
     db.refresh(db_question)
@@ -47,6 +47,11 @@ def get_room_by_room_id(db: Session, room_id: int):
 def get_room_by_room_id_and_question_num(db: Session, room_id: int, question_num: int):
     return db.query(models.Question).filter(and_(models.Question.room_id == room_id , models.Question.question_num == question_num)).all()
 
+def get_question_by_room_id_and_question_round_question_num(db: Session, room_id: int,question_round: int, question_num: int):
+    return db.query(models.Question).filter(and_(models.Question.room_id == room_id , models.Question.question_num == question_num)).all()
+
+def get_question_by_room_id_and_question_round_question_num_and_number(db: Session, room_id: int,question_round: int, question_num: int,number: int):
+    return db.query(models.Question).filter(and_(models.Question.room_id == room_id , models.Question.question_num == question_num,models.Question.number == number)).first()
 
 def get_theme(db: Session, num: int):
     return db.query(models.Theme).filter(models.Theme.id == num).first()

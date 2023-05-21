@@ -42,6 +42,7 @@ class Question(Base):
     __tablename__ = "questions"
     
     id = Column(Integer,primary_key = True)
+    number = Column(Integer)
     question = Column(String)
     room_id = Column(Integer,default = 0)
     user_id = Column(Integer,default = 0)
