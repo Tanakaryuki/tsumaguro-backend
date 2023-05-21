@@ -38,6 +38,13 @@ def create_question(db: Session, question: schemas.QuestionCreate, room_id: int,
     db.refresh(db_question)
     return db_question
 
+def create_vote(db: Session, vote: schemas.VoteCreate, room_id: int):
+    db_vote = models.Vote(room_id = room_id, user_id = vote.user_id)
+    db.add(db_vote)
+    db.commit()
+    db.refresh(db_vote)
+    return db_vote
+
 def get_room_by_owner_id(db: Session, user_id: str):
     return db.query(models.Room).filter(models.Room.owner_id == user_id).first()
 
@@ -62,8 +69,17 @@ def get_question(db: Session, room_id: int, question_round: int, question_num: i
 def get_user_by_session(db: Session, session_id: str):
     return db.query(models.User).filter(models.User.session_id == session_id).first()
 
+def get_user_name_by_user_id(db: Session, user_id: int):
+    return db.query(models.User).filter(models.User.id == user_id).first().user_name
+
+def get_user_name_by_room_id(db: Session, room_id: int):
+    return db.query(models.User).filter(models.User.room_id == room_id).all()
+
 def get_user_by_room_id(db: Session, room_id: int):
     return db.query(models.User).filter(models.User.room_id == room_id).all()
+
+def get_vote_by_room_id(db: Session, room_id: int):
+    return db.query(models.Vote).filter(models.Vote.room_id == room_id).all()
 
 def update_room_questions_num(db: Session, room_id: int, questions_num: int):
     db_room = db.query(models.Room).filter(models.Room.id == room_id).first()

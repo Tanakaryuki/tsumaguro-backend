@@ -82,3 +82,17 @@ class Question(QuestionBase):
 
     class Config:
         orm_mode = True
+
+class VoteBase(BaseModel):
+    room_id : int
+    user_id : int
+    vote_user_id: int
+
+class VoteCreate(VoteBase):
+    pass
+
+class Vote(VoteBase):
+    id : int
+
+    class Config:
+        orm_mode = True

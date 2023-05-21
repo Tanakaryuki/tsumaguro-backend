@@ -48,3 +48,12 @@ class Question(Base):
     user_id = Column(Integer,default = 0)
     question_round = Column(Integer, default = 0)
     question_num = Column(Integer, default = 0)
+
+class Vote(Base):
+    __tablename__ = "votes"
+
+    id = Column(Integer,primary_key = True)
+    room_id = Column(Integer,default = 0)
+    user_id = Column(Integer,default = 0)
+    vote_user_id = Column(Integer,default = 0)
+
